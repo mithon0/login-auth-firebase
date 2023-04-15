@@ -14,10 +14,12 @@ const auth =getAuth(app);
 const Register = () => {
     const [error,setError]=useState('');
     const [success,setSuccsess]=useState('');
+    const [showpass,setShowpass]=useState(false);
 // signUp with Google  and git hub
 const googleProvider = new GoogleAuthProvider();
 const gitHuProvider = new GithubAuthProvider();
 const googleHeandler =()=>{
+  setSuccsess('');
   signInWithPopup(auth,googleProvider)
 .then(result=>{
   const user =result.user;
@@ -26,10 +28,11 @@ const googleHeandler =()=>{
   setError('');
 })
 .catch(error=>{
-  setError(error)
+  setError(error.message);
 })
 };
 const gitHubHeandler =()=>{
+  setSuccsess('');
     signInWithPopup(auth ,gitHuProvider)
     .then(result =>{
       const gitUser =result.user;
@@ -38,7 +41,7 @@ const gitHubHeandler =()=>{
       setError('');
     })
     .catch(error=>{
-      setError(error)
+      setError(error.message);
     })
 }
 
@@ -64,7 +67,13 @@ const gitHubHeandler =()=>{
         })
     }
 
-
+    const passwordShoeHeandlar =()=>{
+      if(showpass ==false){
+        setShowpass(true);
+      }else{
+        setShowpass(false);
+      }
+    }
     // const passHeandler =event=>{
     //     // console.log(event.target.value);
     // }
@@ -85,13 +94,13 @@ const gitHubHeandler =()=>{
 
       <Form.Group className="mb-3" controlId="formBasicPassword">
         <Form.Label>Password</Form.Label>
-        <Form.Control  type="password" name='password' placeholder="Password" />
+        <Form.Control  type={showpass ?"text":"password"} name='password' placeholder="Password" />
       </Form.Group>
       <Form.Group className="mb-3" controlId="formBasicCheckbox">
-        <Form.Check type="checkbox" label="Check me out" />
+        <Form.Check onChange={passwordShoeHeandlar} type="checkbox" label="Check me out" />
       </Form.Group>
       <Button variant="primary" type="submit">
-        Submit
+        Register
       </Button>
       <p className='text-danger'>{error}</p>
       <p className='text-success'>{success}</p>
