@@ -51,7 +51,20 @@ const gitHubHeandler =()=>{
         event.preventDefault();
         const email =event.target.email.value;
         const password =event.target.password.value;
-       
+      //  validation
+        if(!/(?=.*?[A-Z])/.test(password)){
+          setError('Please add miminum 1 Capital letter on your password')
+          return;
+        }
+        else if(!/(?=.*?[a-z])/.test(password)){
+          setError("At least one lower case English letter")
+          return;
+        }
+        else if(!/(?=.*?[#?!@$%^&*-])/.test(password)){
+          setError('please add one special character')
+          return;
+        }
+        
 
         // firebase setup 
         createUserWithEmailAndPassword(auth,email,password)
